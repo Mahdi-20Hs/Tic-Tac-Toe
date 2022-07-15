@@ -1,0 +1,68 @@
+*{
+  padding: 0%;
+  margin: 0%;
+  box-sizing: border-box;
+}
+body{
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: auto 1fr;
+}
+.header{
+  grid-column: 1/-1;
+  grid-row: 1/2;
+  background-color: lightblue;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  z-index: 100;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.247);
+}
+.side{
+  grid-column: 1/2;
+  grid-row: 2/-1;
+  background-color: lightcoral;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  font-size: 1.5rem;
+}
+.side .marks img{
+  width: 70px;
+  height: auto;
+  background: lightgray;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 10px;
+}
+.side .restart-btn{
+  background: lightgray;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+.main{
+  grid-column: 2/-1;
+  grid-row: 2/-1;
+  background-color: lightcyan;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main .board{
+  width: 60%;
+  height: 500px;
+  background-color: lightgrey;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.board .block{
+  border: 1px solid black;
+  cursor: pointer;
+}
