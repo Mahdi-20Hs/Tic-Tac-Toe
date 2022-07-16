@@ -65,4 +65,8 @@ body{
 .board .block{
   border: 1px solid black;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4.5rem;
 }
