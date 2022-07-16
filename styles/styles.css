@@ -8,6 +8,7 @@ body{
   display: grid;
   grid-template-columns: 1fr 4fr;
   grid-template-rows: auto 1fr;
+  position: relative;
 }
 .header{
   grid-column: 1/-1;
@@ -45,6 +46,10 @@ body{
   cursor: pointer;
   padding: 5px 10px;
 }
+.restart-btn a{
+  text-decoration: none;
+  color: black;
+}
 .main{
   grid-column: 2/-1;
   grid-row: 2/-1;
@@ -69,4 +74,52 @@ body{
   justify-content: center;
   align-items: center;
   font-size: 4.5rem;
+}
+
+.result-container{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.39);
+  z-index: 120;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+}
+
+.round-result{
+  background-color: white;
+  border-radius: 20px;
+  width: 30%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.204);
+  transform: scale(0);
+  transition-duration: 0.2s;
+}
+
+.round-result h1{
+  font-size: 2.5rem;
+}
+
+.round-result .btns{
+  display: flex;
+  gap: 20px;
+}
+
+.btns button{
+  width: 100px;
+  height: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btns a{
+  text-decoration: none;
+  color: black;
 }
