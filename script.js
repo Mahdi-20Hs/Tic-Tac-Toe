@@ -1,4 +1,4 @@
-const play = (function(){
+const ticTacToe = (function(){
 
   const player = {name:'player', score:0};
   const computer = {name: 'computer', score:0};
@@ -6,9 +6,9 @@ const play = (function(){
 
   //cache the DOM
   const marks = document.querySelectorAll('.marks img');
-  const blocks = document.querySelectorAll('.block');
-  const playerResult = document.querySelector('.player-result span');
-  const computerResult = document.querySelector('.computer-result span');
+  const gameboardBlocks = document.querySelectorAll('.block');
+  const playerScore = document.querySelector('.player-result span');
+  const computerScore = document.querySelector('.computer-result span');
   const resultContainer = document.querySelector('.result-container');
   const roundResult = document.querySelector('.round-result');
   const roundResultHeader = document.querySelector('.round-result h1 span');
@@ -17,82 +17,94 @@ const play = (function(){
 
   function init(){
     bindEvents()
-
   }
+
   function bindEvents(){
     marks.forEach((mark) => {
       mark.addEventListener('click', selectMark.bind(this, mark))
     });
-    blocks.forEach((block) => {
+    gameboardBlocks.forEach((block) => {
       block.addEventListener('click', play.bind(this, block))
     })
     nextRoundBtn.addEventListener('click', nextRound.bind(this))
   }
+
   function selectMark(mark){
-    if(Array.from(blocks).every(function(block){
+    if(Array.from(gameboardBlocks).every(function(block){
       return block.textContent === '';
     })){
       if(mark.alt === 'x'){
         player.mark = 'x';
         computer.mark = 'o';
-        changeMarkBtnStyle(mark);
       }else{
         player.mark = 'o';
         computer.mark = 'x';
-        changeMarkBtnStyle(mark);
       }
+      styleMark(mark);
     }
   }
-  function changeMarkBtnStyle(mark){
+
+  function styleMark(mark){
     marks.forEach((mark) => {
       mark.setAttribute('style', 'border:none');
     })
     mark.setAttribute('style', 'border: 2px solid black')
   }
+
   function play(block){
     if(playerTurn(block) === true){
-      computerPlay();
       render();
+      if(declareWinner(findTheWinner()) !== true){
+        computerTurn();
+        render();
+      }
     }
-    declareWinner(findResult());
-    
+    declareWinner(findTheWinner());
   }
-  function declareWinner(winnerMark){
-    if(winnerMark === player.mark){
-      player.score++;
-      playerResult.textContent = player.score;
-      renderResult('You win!!!')
-    }else if(winnerMark === computer.mark){
-      computer.score++;
-      computerResult.textContent = computer.score;
-      renderResult('Computer wins!!')
-    }else if(winnerMark === 'tie'){
-      renderResult("It's a tie!!")
-    }
-    
 
-  }
-  function renderResult(result){
-    resultContainer.setAttribute('style', 'visibility:visible');
-    roundResult.setAttribute('style', 'transform:scale(1)');
-    roundResultHeader.textContent = result;
-  }
-  function hideResult(){
-    resultContainer.setAttribute('style', 'visibility:hidden');
-    roundResult.setAttribute('style', 'transform:scale(0)');
-  }
-  function nextRound(){
-    for(let i = 0; i < gameboard.length; i++){
-      gameboard[i].fill('');
+  function playerTurn(block){
+    if(block.textContent === ''){
+      let index = Array.from(gameboardBlocks).indexOf(block);
+      if(index < 3){
+        gameboard[0][index] = player.mark;
+      }else if(index > 2 && index < 6){
+        gameboard[1][index - 3] = player.mark;
+      }else{
+        gameboard[2][index - 6] = player.mark
+      }
+      return true
     }
-    render();
-    hideResult()
   }
-  function createGameBoardArr(){
-    let gameboardArr = gameboard[0].concat(gameboard[1], gameboard[2]);
-    return gameboardArr;
+
+  function computerTurn(){
+    let index = Math.floor(Math.random() * 3);
+    if(gameboard[index].some(function(element){
+      return element === '';
+    })){
+      for(let i = 0; i < gameboard[index].length; i++){
+        if(gameboard[index][i] === ''){
+          gameboard[index][i] = computer.mark;
+          break;
+        }
+      }
+    }else{
+      let gameboardArr = createGameBoardArr();
+      if(gameboardArr.some(function(element){
+        return element === ''
+      })){
+        computerTurn();
+      }
+      
+    }
   }
-  function findResult(){
+
+  function render(gameboardArr = createGameBoardArr()){
+    for(let i = 0; i < gameboardBlocks.length; i++){
+      gameboardBlocks[i].textContent = gameboardArr[i];
+    }
+  }
+
+  function findTheWinner(){
     for(let i = 0 ; i < gameboard.length; i++){
       
       if(gameboard[i][1] === gameboard[i][0] && gameboard[i][1] === gameboard[i][2]){
@@ -117,48 +129,52 @@ const play = (function(){
     }
       
   }
-  function computerPlay(){
-    let index = Math.floor(Math.random() * 3);
-    if(gameboard[index].some(function(element){
-      return element === '';
-    })){
-      for(let i = 0; i < gameboard[index].length; i++){
-        if(gameboard[index][i] === ''){
-          gameboard[index][i] = computer.mark;
-          break;
-        }
-      }
-    }else{
-      let gameboardArr = createGameBoardArr();
-      if(gameboardArr.some(function(element){
-        return element === ''
-      })){
-        computerPlay();
-      }
-      
+
+  function declareWinner(winnerMark){
+    if(winnerMark === player.mark){
+      player.score++;
+      playerScore.textContent = player.score;
+      renderResultContainer('You win!!!')
+      return true;
+
+    }else if(winnerMark === computer.mark){
+      computer.score++;
+      computerScore.textContent = computer.score;
+      renderResultContainer('Computer wins!!')
+
+    }else if(winnerMark === 'tie'){
+      renderResultContainer("It's a tie!!")
     }
+    return false;
   }
-  function playerTurn(block){
-    if(block.textContent === ''){
-      let index = Array.from(blocks).indexOf(block);
-      if(index < 3){
-        gameboard[0][index] = player.mark;
-      }else if(index > 2 && index < 6){
-        gameboard[1][index - 3] = player.mark;
-      }else{
-        gameboard[2][index - 6] = player.mark
-      }
-      return true
+
+  function renderResultContainer(result){
+    resultContainer.setAttribute('style', 'visibility:visible');
+    roundResult.setAttribute('style', 'transform:scale(1)');
+    roundResultHeader.textContent = result;
+  }
+
+  function hideResultContainer(){
+    resultContainer.setAttribute('style', 'visibility:hidden');
+    roundResult.setAttribute('style', 'transform:scale(0)');
+  }
+
+  function nextRound(){
+    for(let i = 0; i < gameboard.length; i++){
+      gameboard[i].fill('');
     }
+    render();
+    hideResultContainer();
   }
-  function render(gameboardArr = gameboard[0].concat(gameboard[1], gameboard[2])){
-    for(let i = 0; i < blocks.length; i++){
-      blocks[i].textContent = gameboardArr[i];
-    }
+
+  function createGameBoardArr(){
+    let gameboardArr = gameboard[0].concat(gameboard[1], gameboard[2]);
+    return gameboardArr;
   }
+
   return{
     init: init,
   }
 })()
 
-play.init()
+ticTacToe.init()
