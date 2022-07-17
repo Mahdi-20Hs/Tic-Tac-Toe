@@ -1,6 +1,6 @@
 # Tic-Tac-Toe
 
-## OverView:
+## Overview:
 this is a simple Tic-Tac-Toe game that I created as part of the TOP curriculum. the main purpose of this project is to practice organizing my JS code using different design patterns.
 
 ## What I learned:
