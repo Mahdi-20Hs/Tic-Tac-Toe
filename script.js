@@ -46,20 +46,27 @@ const ticTacToe = (function(){
 
   function styleMark(mark){
     marks.forEach((mark) => {
-      mark.setAttribute('style', 'border:none');
+      mark.setAttribute('id', '');
     })
-    mark.setAttribute('style', 'border: 2px solid black')
+    if(mark.alt === 'o'){
+      mark.setAttribute('id', 'o-clicked');
+    }
+    if(mark.alt === 'x'){
+      mark.setAttribute('id' ,'x-clicked');
+    }
   }
 
   function play(block){
     if(playerTurn(block) === true){
       render();
-      if(declareWinner(findTheWinner()) !== true){
-        computerTurn();
-        render();
+      if(declareWinner(findTheWinner()) === true){
+        return
       }
+      computerTurn();
+      render();
+      declareWinner(findTheWinner())
     }
-    declareWinner(findTheWinner());
+
   }
 
   function playerTurn(block){
@@ -93,14 +100,24 @@ const ticTacToe = (function(){
         return element === ''
       })){
         computerTurn();
-      }
-      
+      } 
     }
   }
 
   function render(gameboardArr = createGameBoardArr()){
     for(let i = 0; i < gameboardBlocks.length; i++){
       gameboardBlocks[i].textContent = gameboardArr[i];
+      styleBlock(gameboardBlocks[i]);
+    }
+  }
+
+  function styleBlock(block){
+    if(block.textContent === 'x'){
+      block.style.color = '#00FFDD';
+      block.style.textShadow = '0px 0px 30px #3765e2';
+    }else if(block.textContent === 'o'){
+      block.style.color = '#FF0000';
+      block.style.textShadow = '0px 0px 30px #df0707';
     }
   }
 
@@ -109,11 +126,9 @@ const ticTacToe = (function(){
       
       if(gameboard[i][1] === gameboard[i][0] && gameboard[i][1] === gameboard[i][2]){
         return gameboard[i][0];
-        break;
         
       }else if(gameboard[1][i] === gameboard[0][i] && gameboard[1][i] === gameboard[2][i]){
         return gameboard[1][i];
-        break;
       }
     }
     if(gameboard[1][1] === gameboard[0][0] && gameboard[1][1] === gameboard[2][2]){

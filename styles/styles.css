@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
 *{
   padding: 0%;
   margin: 0%;
   box-sizing: border-box;
+  font-family: 'Kanit', sans-serif;
 }
 body{
   height: 100vh;
@@ -11,49 +14,89 @@ body{
   position: relative;
 }
 .header{
-  grid-column: 1/-1;
+  grid-column: 2/-1;
   grid-row: 1/2;
-  background-color: lightblue;
+  background-color: #060213;
+  color: white;
   padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
   z-index: 100;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.247);
+}
+.header h1{
+  -webkit-text-stroke: 2px #37E2D5;
+  text-shadow: 0px 0px 50px #3765e2, 0px 0px 50px #3765e2;
 }
 .side{
   grid-column: 1/2;
-  grid-row: 2/-1;
-  background-color: lightcoral;
+  grid-row: 1/-1;
+  background-color: #0a0320;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 50px;
-  font-size: 1.5rem;
+  font-size: 2rem;
+  border-right: 2px solid #4173ff;
+  box-shadow: 10px 0px 10px #3765e2;
+  z-index: 110;
 }
 .side .marks img{
-  width: 70px;
+  width: 90px;
   height: auto;
-  background: lightgray;
+  background: transparent;
   padding: 10px 20px;
   cursor: pointer;
   margin: 10px;
+  transition-duration: 0.2s;
+}
+.marks .o-mark{
+  filter: invert(11%) sepia(92%) saturate(5004%) hue-rotate(360deg) brightness(82%) contrast(114%);
+}
+.marks .x-mark{
+  filter: invert(32%) sepia(75%) saturate(4197%) hue-rotate(157deg) brightness(96%) contrast(102%);
+}
+#x-clicked, .x-mark:hover{
+  filter: invert(90%) sepia(88%) saturate(1825%) hue-rotate(87deg) brightness(106%) contrast(101%) drop-shadow(0px 0px 20px #00FFDD);
+}
+#o-clicked, .o-mark:hover{
+  filter: invert(22%) sepia(100%) saturate(7500%) hue-rotate(359deg) brightness(116%) contrast(113%) drop-shadow(0px 0px 20px #FF0000);
+}
+.player-result, .computer-result{
+  align-self: flex-start;
+  margin-left: 40px;
+  color: white;
+  -webkit-text-stroke: 1px #37E2D5;
+  text-shadow: 0px 0px 50px #3765e2, 0px 0px 50px #3765e2;
 }
 .side .restart-btn{
-  background: lightgray;
+  background: transparent;
   cursor: pointer;
   padding: 5px 10px;
+  border: 2px solid #37E2D5;
+  box-shadow: 0px 0px 20px #3765e2;
+  transition-duration: 0.2s;
+  
+}
+
+.side .restart-btn:hover{
+  background-image: radial-gradient(#37E2D5, #3765e2);
 }
 .restart-btn a{
   text-decoration: none;
-  color: black;
+  color: white;
+  -webkit-text-stroke: 1px #37E2D5;
+}
+
+.restart-btn a:hover{
+  -webkit-text-stroke: 1px white;
 }
 .main{
   grid-column: 2/-1;
   grid-row: 2/-1;
-  background-color: lightcyan;
+  background-color: #060213;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,25 +104,27 @@ body{
 .main .board{
   width: 60%;
   height: 500px;
-  background-color: lightgrey;
+  box-shadow: 0px 0px 20px #3765e2;
+  background-color: #0a0320;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
 }
 
 .board .block{
-  border: 1px solid black;
+  font-family: 'Nunito', sans-serif;
+  border: 1px solid #3765e2;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 4.5rem;
+  font-size: 7.5rem;
 }
 
 .result-container{
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.39);
+  background-color: rgba(0, 0, 0, 0.527);
   z-index: 120;
   position: absolute;
   display: flex;
@@ -89,7 +134,8 @@ body{
 }
 
 .round-result{
-  background-color: white;
+  background-color: #060213;
+  border: 2px solid #3765e2;
   border-radius: 20px;
   width: 30%;
   height: 50%;
@@ -105,6 +151,9 @@ body{
 
 .round-result h1{
   font-size: 2.5rem;
+  color: white;
+  -webkit-text-stroke: 1px #37E2D5;
+  text-shadow: 0px 0px 50px #3765e2, 0px 0px 50px #3765e2;
 }
 
 .round-result .btns{
@@ -112,14 +161,23 @@ body{
   gap: 20px;
 }
 
-.btns button{
-  width: 100px;
-  height: 30px;
-  font-size: 1rem;
+.btns button, .btns a{
+  width: 130px;
+  height: 50px;
+  font-size: 1.3rem;
   cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #00FFDD;
+  box-shadow: 0 0 10px #3765e2;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.btns a{
-  text-decoration: none;
-  color: black;
+.btns button:hover, .btns a:hover{
+  background-image: radial-gradient(#37E2D5, #3765e2);
+  color: #060213;
 }
+
